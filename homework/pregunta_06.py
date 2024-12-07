@@ -5,8 +5,31 @@ solo puede utilizar las funciones y librerias basicas de python. No puede
 utilizar pandas, numpy o scipy.
 """
 
+import itertools
 
 def pregunta_06():
+    with open("files/input/data.csv",'r') as f:
+        l=[row.split("\t")[4].replace("\n","").split(",") for row in f.readlines()]
+        
+        l=[row.split(":") for row in list(itertools.chain(*l))]
+    
+    minmax=[
+        (
+             key,
+            min(int(value) for k, value in l if k == key),
+            max(int(value) for k, value in l if k == key),
+        )
+        for key in set(k for k, _ in l)
+    ]
+    
+    return sorted(minmax)
+
+if __name__ =="__main__":
+    print(pregunta_06())
+
+
+
+
     """
     La columna 5 codifica un diccionario donde cada cadena de tres letras
     corresponde a una clave y el valor despues del caracter `:` corresponde al
